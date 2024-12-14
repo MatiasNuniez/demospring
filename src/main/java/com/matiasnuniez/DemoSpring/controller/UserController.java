@@ -16,12 +16,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    // DTO para recibir email y password
     public static class LoginRequest {
         private String email;
         private String password;
 
-        // Getters y setters
         public String getEmail() {
             return email;
         }
