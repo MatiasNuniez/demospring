@@ -28,13 +28,17 @@ public class TicketService {
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id invalido, no se encontro ningun ticket con ese ID."));
     }
 
-    public Ticket updateTicket(Ticket dataUpdate){
+    public Ticket createNewTicket(Ticket ticket){
+        return this.ticketRepository.save(ticket);
+    }
+
+    public Ticket updateTicket(Long id, Ticket dataUpdate){
         Ticket ticket = this.ticketRepository.findById(dataUpdate.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No existe el ID del ticket a actualizar."));
 
-        ticket.setStatus(dataUpdate.status);
-        ticket.setIdResponsible(dataUpdate.idResponsible);
-        ticket.setNameResponsible(dataUpdate.nameResponsible);
+        ticket.setStatus(dataUpdate.isStatus());
+        ticket.setIdResponsible(dataUpdate.getIdResponsible());
+        ticket.setNameResponsible(dataUpdate.getNameResponsible());
 
         return this.ticketRepository.save(ticket);
     }

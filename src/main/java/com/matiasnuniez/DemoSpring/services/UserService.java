@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;
@@ -52,4 +53,19 @@ public class UserService {
         this.userRepository.delete(user);
         return "El usuario fue eliminado correctamente";
     }
+
+    public User getOneUser(Long id){
+        return this.userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No se encontro un user con ese id."));
+    }
+
+    public User updateOneUser(Long id, User user){
+        User existUser = this.userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Error al buscar el usuario con id" + id));
+        existUser.setEmail(user.getEmail());
+        existUser.setPassword(user.getPassword());
+        existUser.setName(user.getName());
+        existUser.setLastName(user.getLastName());
+        return this.userRepository.save(existUser);
+    }
+
 }

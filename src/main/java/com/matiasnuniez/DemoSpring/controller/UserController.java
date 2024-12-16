@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.lang.Long.parseLong;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -50,5 +52,20 @@ public class UserController {
     @GetMapping("/user")
     public List<User> getAllUsers() {
         return this.userService.getAllUsers();
+    }
+
+    @GetMapping("/user/{id}")
+    public User getOneUser(@PathVariable Long id){
+        return this.userService.getOneUser(id);
+    }
+
+    @PutMapping("/user/{id}")
+        public User updateOneUser(@PathVariable Long id, @RequestBody User user){
+        return this.userService.updateOneUser(id, user);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public String deleteOneUser(@PathVariable Long id){
+        return this.userService.deleteUser(id);
     }
 }
